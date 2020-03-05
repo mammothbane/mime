@@ -4,6 +4,10 @@
 
 use std::error::Error;
 use std::{fmt, slice};
+use std::hash::{
+    Hash,
+    Hasher,
+};
 
 pub mod constants;
 mod rfc7231;
@@ -21,6 +25,12 @@ pub struct Mime {
     slash: u16,
     plus: Option<u16>,
     params: ParamSource,
+}
+
+impl Hash for Mime {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.as_ref().hash(state);
+    }
 }
 
 #[derive(Clone)]

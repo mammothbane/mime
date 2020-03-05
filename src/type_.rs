@@ -49,7 +49,7 @@ use crate::{InvalidMime, Value};
 /// A `MediaType` represents an exact format type. The HTTP `Accept` header
 /// can include "media ranges", which can match multiple media types. Those
 /// "media ranges" should be represented as [`MediaRange`](super::MediaRange).
-#[derive(Clone)]
+#[derive(Clone, Hash)]
 pub struct MediaType {
     pub(super) mime: Mime,
 }
@@ -210,6 +210,8 @@ impl MediaType {
         assert!(!self.as_ref().contains('*'), "{:?} contains an asterisk", self);
     }
 }
+
+impl Eq for MediaType {}
 
 impl PartialEq for MediaType {
     fn eq(&self, other: &MediaType) -> bool {
